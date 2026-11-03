@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Si Pintar – Game Belajar Anak</title>
+<style>
+:root{--bg:#fff7e6;--card:#ffffff;--text:#3b2a6b;--sub:#7a6aa8;--pri:#7c4dff;--ok:#2ecc71;--bad:#ff5a5f;--sun:#ffc93c;--shadow:rgba(124,77,255,.25);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d1638;--card:#2b2152;--text:#f4efff;--sub:#b9a9f0;--shadow:rgba(0,0,0,.4);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1d1638;--card:#2b2152;--text:#f4efff;--sub:#b9a9f0;--shadow:rgba(0,0,0,.4);color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Baloo 2","Comic Sans MS","Trebuchet MS",system-ui,sans-serif;min-height:100vh;display:flex;justify-content:center}
+#app{width:100%;max-width:520px;padding:16px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.pill{background:var(--card);border-radius:999px;padding:8px 14px;font-weight:700;box-shadow:0 4px 0 var(--shadow)}
+.ib{border:0;background:var(--card);border-radius:50%;width:44px;height:44px;font-size:20px;box-shadow:0 4px 0 var(--shadow);cursor:pointer;color:var(--text)}
+h1{font-size:2.2rem;margin:6px 0 2px;text-align:center}
+.mascot{font-size:4.5rem;text-align:center;animation:bob 2s ease-in-out infinite}
+.tag{text-align:center;color:var(--sub);margin:0 0 18px;font-weight:600}
+@keyframes bob{50%{transform:translateY(-8px)}}
+.menu{display:grid;gap:14px}
+.mc{border:0;border-radius:24px;padding:18px;display:flex;align-items:center;gap:14px;font:inherit;color:#fff;text-align:left;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.2);transition:transform .1s}
+.mc:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.2)}
+.mc .e{font-size:2.6rem}.mc b{font-size:1.4rem;display:block}.mc span{font-size:.95rem;opacity:.95}
+.c1{background:#ff7a59}.c2{background:#16b8a6}.c3{background:#7c4dff}
+.bar{height:14px;background:var(--card);border-radius:99px;overflow:hidden;margin:6px 0 16px;box-shadow:inset 0 2px 0 var(--shadow)}
+.bar i{display:block;height:100%;background:var(--ok);width:0;transition:width .3s}
+.q{background:var(--card);border-radius:28px;padding:20px;text-align:center;box-shadow:0 6px 0 var(--shadow)}
+.q .big{font-size:2.6rem;line-height:1.3;word-break:break-all;min-height:120px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap}
+.q .big.one{font-size:6rem}
+.q p{margin:0 0 6px;font-size:1.25rem;font-weight:700}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.o{border:0;border-radius:20px;padding:16px 8px;font:inherit;font-size:1.6rem;font-weight:800;background:var(--sun);color:#3b2a6b;box-shadow:0 5px 0 rgba(0,0,0,.2);cursor:pointer}
+.o:active{transform:translateY(3px)}
+.o.ok{background:var(--ok);color:#fff}.o.no{background:var(--bad);color:#fff;animation:sh .3s}
+@keyframes sh{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.say{margin-top:10px;border:0;background:none;font-size:1rem;color:var(--pri);font-weight:700;cursor:pointer;font-family:inherit}
+.fb{height:34px;text-align:center;font-size:1.3rem;font-weight:800;margin-top:12px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.card{aspect-ratio:1;border:0;border-radius:18px;font-size:2.2rem;background:var(--pri);color:#fff;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.25);font-family:inherit}
+.card.f{background:var(--card);color:inherit}.card.m{background:var(--ok)}
+.res{text-align:center;background:var(--card);border-radius:28px;padding:28px 18px;box-shadow:0 6px 0 var(--shadow)}
+.res .st{font-size:3rem;letter-spacing:4px}
+.btn{border:0;border-radius:99px;padding:14px 26px;font:inherit;font-size:1.2rem;font-weight:800;background:var(--pri);color:#fff;margin:8px 4px 0;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.25)}
+.btn.g{background:var(--sun);color:#3b2a6b}
+.fx{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.fx span{position:absolute;top:-40px;font-size:28px;animation:fall 2s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="fx" id="fx"></div>
+<script>
+var I=[['🐱','Kucing'],['🐶','Anjing'],['🐘','Gajah'],['🐟','Ikan'],['🐔','Ayam'],['🐄','Sapi'],['🐒','Monyet'],['🦁','Singa'],['🍎','Apel'],['🍌','Pisang'],['🍉','Semangka'],['🍇','Anggur'],['🚗','Mobil'],['✈️','Pesawat'],['🚲','Sepeda'],['⚽','Bola'],['🌻','Bunga'],['🏠','Rumah'],['🐢','Kura-kura'],['🐸','Katak']];
+var app=document.getElementById('app'),total=0,mute=false,AC=null;
+try{total=+localStorage.getItem('sp_stars')||0}catch(e){}
+function save(){try{localStorage.setItem('sp_stars',total)}catch(e){}}
+function rnd(n){return Math.floor(Math.random()*n)}
+function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=rnd(i+1),t=a[i];a[i]=a[j];a[j]=t}return a}
+function tone(f,d,t){if(mute)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();var o=AC.createOscillator(),g=AC.createGain();o.type=t||'sine';o.frequency.value=f;g.gain.value=.15;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.stop(AC.currentTime+d)}catch(e){}}
+function good(){tone(660,.15);setTimeout(function(){tone(880,.2)},120)}
+function bad(){tone(180,.3,'square')}
+function speak(t){if(mute)return;try{var u=new SpeechSynthesisUtterance(t);u.lang='id-ID';u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+function confetti(){var f=document.getElementById('fx'),s=['⭐','🎉','✨','🎈','🌟'];for(var i=0;i<26;i++){var p=document.createElement('span');p.textContent=s[rnd(5)];p.style.left=rnd(95)+'%';p.style.animationDelay=Math.random()*.6+'s';f.appendChild(p)}setTimeout(function(){f.innerHTML=''},3000)}
+function hdr(back){return '<div class="top">'+(back?'<button class="ib" onclick="home()" aria-label="Kembali">⬅️</button>':'<button class="ib" onclick="tgl()" aria-label="Suara">'+(mute?'🔇':'🔊')+'</button>')+'<div class="pill">⭐ '+total+'</div></div>'}
+function tgl(){mute=!mute;home()}
+function home(){
+app.innerHTML=hdr(false)+'<div class="mascot">🦉</div><h1>Si Pintar</h1><p class="tag">Ayo belajar sambil bermain!</p><div class="menu">'+
+'<button class="mc c1" onclick="quiz(\'hitung\')"><span class="e">🔢</span><div><b>Ayo Berhitung</b><span>Hitung gambar &amp; tambah-tambahan</span></div></button>'+
+'<button class="mc c2" onclick="quiz(\'nama\')"><span class="e">🐘</span><div><b>Tebak Nama</b><span>Kenali hewan, buah &amp; benda</span></div></button>'+
+'<button class="mc c3" onclick="memory()"><span class="e">🧠</span><div><b>Cari Pasangan</b><span>Latih ingatan dengan kartu</span></div></button></div>';
+}
+var G;
+function quiz(type){G={type:type,n:0,mis:0,tot:10,lock:false};nextQ()}
+function mkQ(){
+var n=G.n;
+if(G.type==='hitung'){
+var it=I[rnd(I.length)][0],a,b,ans,h,p;
+if(n<5){ans=1+rnd(n<3?5:10);h=it.repeat(ans);p='Ada berapa gambar ini?'}
+else{a=1+rnd(6);b=1+rnd(10-a);ans=a+b;h=a+' + '+b+' = ?';p='Berapa hasilnya?'}
+var o=[ans];while(o.length<4){var x=Math.max(1,ans+rnd(7)-3);if(o.indexOf(x)<0)o.push(x)}
+return{p:p,h:h,one:false,o:shuf(o),a:ans}
+}
+var c=I[rnd(I.length)],o=[c[1]];
+while(o.length<4){var y=I[rnd(I.length)][1];if(o.indexOf(y)<0)o.push(y)}
+return{p:'Ini gambar apa?',h:c[0],one:true,o:shuf(o),a:c[1],say:c[1]}
+}
+function nextQ(){
+if(G.n>=G.tot)return end();
+var q=G.q=mkQ();G.lock=false;
+app.innerHTML=hdr(true)+'<div class="bar"><i style="width:'+(G.n/G.tot*100)+'%"></i></div><div class="q"><p>'+q.p+'</p><div class="big'+(q.one?' one':'')+'">'+q.h+'</div>'+(q.say?'<button class="say" onclick="speak(G.q.say)">🔊 Dengarkan</button>':'')+'</div><div class="fb" id="fb"></div><div class="opts">'+q.o.map(function(o,i){return'<button class="o" onclick="pick(this,'+i+')">'+o+'</button>'}).join('')+'</div>';
+}
+function pick(b,i){
+if(G.lock||b.classList.contains('no'))return;
+var q=G.q,fb=document.getElementById('fb');
+if(q.o[i]===q.a){G.lock=true;b.classList.add('ok');good();fb.textContent=['Hebat! 🎉','Pintar sekali! 🌟','Benar! 👏','Keren! 😍'][rnd(4)];if(q.say)speak(q.say);G.n++;setTimeout(nextQ,1100)}
+else{b.classList.add('no');bad();G.mis++;fb.textContent='Coba lagi ya 💪'}
+}
+function end(){
+var s=G.mis<=1?3:G.mis<=4?2:1;total+=s;save();confetti();good();
+app.innerHTML=hdr(true)+'<div class="res"><div class="mascot">🦉</div><h1>Selamat!</h1><div class="st">'+'⭐'.repeat(s)+'<span style="opacity:.25">'+'⭐'.repeat(3-s)+'</span></div><p class="tag">'+(s===3?'Sempurna! Kamu juara!':s===2?'Bagus sekali!':'Ayo coba lagi, pasti bisa!')+'</p><button class="btn" onclick="quiz(\''+G.type+'\')">🔁 Main Lagi</button><button class="btn g" onclick="home()">🏠 Menu</button></div>';
+}
+function memory(){
+var lv=Math.min(2,Math.floor(total/10)),np=lv===0?4:lv===1?6:8;
+var ps=shuf(I).slice(0,np),cs=shuf(ps.concat(ps).map(function(x){return x[0]}));
+G={cs:cs,open:[],found:0,np:np,moves:0,lock:false};
+app.innerHTML=hdr(true)+'<div class="q"><p>Temukan pasangan yang sama!</p><div class="fb" id="fb" style="margin:0">Langkah: 0</div></div><br><div class="grid">'+cs.map(function(c,i){return'<button class="card" id="c'+i+'" onclick="flip('+i+')">❓</button>'}).join('')+'</div>';
+}
+function flip(i){
+var b=document.getElementById('c'+i);
+if(G.lock||b.classList.contains('f')||b.classList.contains('m'))return;
+b.classList.add('f');b.textContent=G.cs[i];tone(520,.1);G.open.push(i);
+if(G.open.length===2){
+G.moves++;document.getElementById('fb').textContent='Langkah: '+G.moves;
+var x=G.open[0],y=G.open[1],bx=document.getElementById('c'+x),by=document.getElementById('c'+y);G.open=[];
+if(G.cs[x]===G.cs[y]){bx.classList.add('m');by.classList.add('m');good();G.found++;if(G.found===G.np)setTimeout(winMem,700)}
+else{G.lock=true;bad();setTimeout(function(){[bx,by].forEach(function(e){e.classList.remove('f');e.textContent='❓'});G.lock=false},800)}
+}
+}
+function winMem(){
+var s=G.moves<=G.np+2?3:G.moves<=G.np*2?2:1;total+=s;save();confetti();
+app.innerHTML=hdr(true)+'<div class="res"><div class="mascot">🦉</div><h1>Hore, Berhasil!</h1><div class="st">'+'⭐'.repeat(s)+'</div><p class="tag">Selesai dalam '+G.moves+' langkah</p><button class="btn" onclick="memory()">🔁 Main Lagi</button><button class="btn g" onclick="home()">🏠 Menu</button></div>';
+}
+home();
+</script>
+</body>
+</html>
